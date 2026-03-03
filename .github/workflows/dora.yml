@@ -2,14 +2,18 @@ name: Calculate DevOps Metrics
 
 on:
   workflow_dispatch:
-  
+
 jobs:
   update-metrics:
+    name: Calculate DORA Metrics
     runs-on: ubuntu-latest
-    name: Checking the dora metrics
+
     steps:
       - name: DevOps Metrics from GitHub
-        uses: stenjo/devops-metrics-action@v1
         id: dora
+        uses: stenjo/devops-metrics-action@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get the deploy rate output
+        run: echo "The deploy rate was ${{ steps.dora.outputs.deploy-rate }}"
